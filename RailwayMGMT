@@ -1,0 +1,60 @@
+create table TRAIN
+(
+   TRAIN_NO NUMBER NOT NULL DEFAULT '0',
+   NAME varchar(20) NOT NULL,
+   SEAT_SLEEPER varchar(4) NOT NULL,
+   SEAT_FIRST_CLASS_AC varchar(4) NOT NULL,
+   SEAT_SECOND_CLASS_AC varchar(4) NOT NULL,
+   SEAT_THIRD_CLASS_AC varchar(4) NOT NULL,
+   WIFI varchar(4) NOT NULL,
+   FOOD varchar(4) NOT NULL,
+   RUN_ON_SUNDAY varchar(4) NOT NULL,
+   RUN_ON_MONDAY varchar(4) NOT NULL,
+   RUN_ON_TUESDAY varchar(4) NOT NULL,
+   RUN_ON_WEDNESDAY varchar(4) NOT NULL,
+   RUN_ON_THURSDAY varchar(4) NOT NULL,
+   RUN_ON_FRIDAY varchar(4) NOT NULL,
+   RUN_ON_SATURDAY VARCHAR(4) NOT NULL,
+   PRIMARY KEY (TRAIN_NO)
+);
+INSERT INTO `Train` VALUES (12559,'SHIV GANGA EXP',479,47,96,192,'N','Y','Y','Y','Y','Y','Y','Y','Y'),(12560,'SHIV GANGA EXP',480,43,96,192,'N','Y','Y','Y','Y','Y','Y','Y','Y'),(12581,'BLR NDLS S F EX',432,48,80,144,'N','N','Y','Y','Y','Y','Y','Y','Y'),(12582,'BLR NDLS S F EX',432,48,80,144,'N','N','Y','Y','Y','Y','Y','Y','Y');
+CREATE table STATION
+(
+   STATION_CODE varchar(10) NOT NULL DEFAULT '',
+   STATION_NAME varchar(20) NOT NULL,
+   PRIMARY KEY ('STATION_CODE')
+);
+create table STOPPAGE
+(
+   TRAIN_NO NUMBER NOT NULL DEFAULT '0',
+   STATION_CODE varchar(10) NOT NULL DEFAULT '',
+   ARRIVAL_TIME time DEFAULT NULL,
+   DEPARTURE_TIME time DEFAULT NULL,
+   PRIMARY KEY ('TRAIN_NO','STATION_CODE'),
+   constraint STOPPAGE_1 foreign key ('TRAIN_NO') references 'TRAIN' ('TRAIN_NO') on delete cascade on update cascade,
+   constraint STOPPAGE_2 foreign key ('STATION_CODE') references 'STATION' ('STATION_CODE') on delete cascade on update cascade
+);
+
+CREATE table PASSENGER
+(
+   PASSENGER_ID NUMBER NOT NULL,
+   FIRST_NAME varchar(10) NOT NULL,
+   MIDDLE_NAME varchar(10) NOT NULL,
+   LAST_NAME varchar(10) NOT NULL,
+   DATE_OF_BIRTH date NOT NULL,
+   GENDER varchar(1) NOT NULL,
+   PHONE_NO NUMBER NOT NULL,
+   TICKET_NO NUMBER NOT NULL DEFAULT '0',
+   TRAIN_NO NUMBER NOT NULL DEFAULT '0',
+   PRIMARY KEY ('PASSENGER_ID')
+   constraint PASSENGER_1 foreign key ('TICKET_NO') references 'TICKET' ('TICKET_NO') on delete cascade on update cascade, 
+   constraint PASSENGER_2 foreign key ('TRAIN_NO') references 'TRAIN' ('TRAIN_NO') on delete cascade on update cascade
+);
+
+CREATE table TICKET
+(
+   TICKET_NO NUMBER NOT NULL,
+   SEAT_NO varchar(5) NOT NULL,
+   DATE_OF_JOURNEY date NOT NULL,
+   PRIMARY KEY ('TICKET_NO')
+);
